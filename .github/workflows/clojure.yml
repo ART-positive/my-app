@@ -58,9 +58,9 @@ jobs:
         # Eastwood will exit non-zero on issues
         run: lein eastwood
 
-      - name: Run clj-kondo (via official Docker image)
-        # optional but recommended; does not require installing clj-kondo binary
-        run: docker run --rm -v "${{ github.workspace }}:/work" -w /work clj-kondo/clj-kondo:latest --lint src test
+      - name: Run clj-kondo (via Docker image)
+        run: docker run --rm -v "${{ github.workspace }}:/work" -w /work cljkondo/clj-kondo:latest --lint src test
+
 
   test:
     name: Run tests
