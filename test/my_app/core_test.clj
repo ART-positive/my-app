@@ -29,13 +29,11 @@
       (is (= expected (max-product-recursive-standalone thousand-digit-str 13)))
       (is (= expected (max-product-tailrec-standalone thousand-digit-str 13)))
       (is (= expected (max-product-mapindexed-standalone thousand-digit-str 13)))
-      (is (= expected (lazy thousand-digit-str 13)))
-      )))
+      (is (= expected (lazy thousand-digit-str 13))))))
 
 (deftest short-input-test
   (testing "Если длина входа меньше окна, возвращаем 0"
     (is (= 0 (max-product-recursive-standalone "123" 4)))
     (is (= 0 (max-product-tailrec-standalone "123" 4)))
     (is (= 0 (max-product-mapindexed-standalone "123" 4)))
-    (is (= 0 (lazy "123" 4)))
-    ))
+    (is (= 0 (lazy "123" 4)))))

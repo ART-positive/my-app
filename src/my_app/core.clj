@@ -26,10 +26,10 @@
      71636269561882670428252483600823257530420752963450"
    #"\s+" ""))
 
-(defn digits-from-string [s] 
+(defn digits-from-string [s]
   (->> s
        seq ; \a \1 \b \2 ...
-       (filter #(Character/isDigit ^Character %)) 
+       (filter #(Character/isDigit ^Character %))
        (map #(Character/digit ^Character % 10))))
 
 (defn max-product-recursive-standalone
@@ -39,14 +39,12 @@
         rec (fn rec [i]
               (if (> (+ i n) len)
                 0
-                (let [
-                      p (loop [j i acc 1]
+                (let [p (loop [j i acc 1]
                           (if (>= j (+ i n))
                             acc
                             (recur (inc j) (* acc (nth digits-vec j)))))]
                   (max p (rec (inc i))))))]
     (rec 0)))
-
 
 (defn max-product-tailrec-standalone
   [s n]
