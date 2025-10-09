@@ -58,8 +58,10 @@ jobs:
         # Eastwood will exit non-zero on issues
         run: lein eastwood
 
-      - name: Run clj-kondo (via Docker image)
-        run: docker run --rm -v "${{ github.workspace }}:/work" -w /work cljkondo/clj-kondo:latest --lint src test
+      - name: Run clj-kondo (via Docker)
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/work" -w /work cljkondo/clj-kondo:2024.09.29 clj-kondo --lint src test
+
 
 
   test:
