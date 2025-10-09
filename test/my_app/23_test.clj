@@ -1,6 +1,10 @@
 (ns my-app.23-test
-  (:require [clojure.test :refer :all]
-            [my-app.23 :refer :all]))
+  (:require [clojure.test :refer [deftest is testing]]
+            [my-app.23 :refer [sum-proper-divs abundant?
+                               sum-non-abundant-modular
+                               sum-non-abundant-tailrec
+                               sum-non-abundant-recursive
+                               sum-non-abundant-lazy]]))
 
 (deftest divisors-and-abundant-tests
   (testing "sum-proper-divs basic cases"

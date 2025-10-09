@@ -1,6 +1,11 @@
 (ns my-app.core-test
-  (:require [clojure.test :refer :all]
-            [my-app.core :refer :all]))
+  (:require [clojure.test :refer [deftest is testing]]
+            [my-app.core :refer [digits-from-string
+                                 max-product-recursive-standalone
+                                 max-product-tailrec-standalone
+                                 max-product-mapindexed-standalone
+                                 lazy
+                                 thousand-digit-str]]))
 
 (deftest a-test
   (testing "FIXME, I fail."
