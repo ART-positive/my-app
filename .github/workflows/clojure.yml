@@ -1,0 +1,99 @@
+name: Clojure CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/**"
+      - "src/**"
+      - "test/**"
+      - "project.clj"
+      - "deps.edn"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/**"
+      - "src/**"
+      - "test/**"
+      - "project.clj"
+      - "deps.edn"
+
+jobs:
+  lint:
+    name: Lint & Format check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Cache Maven (~/.m2)
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/project.clj','**/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Install Leiningen
+        run: |
+          mkdir -p ~/.bin
+          curl -fsSL https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ~/.bin/lein
+          chmod +x ~/.bin/lein
+          echo "$HOME/.bin" >> $GITHUB_PATH
+
+      - name: Get Leiningen dependencies
+        run: lein deps
+
+      - name: Check formatting (cljfmt)
+        # Fail build if code is not formatted according to cljfmt config
+        run: lein cljfmt check
+
+      - name: Run Eastwood (static analysis)
+        # Eastwood will exit non-zero on issues
+        run: lein eastwood
+
+      - name: Run clj-kondo (via official Docker image)
+        # optional but recommended; does not require installing clj-kondo binary
+        run: docker run --rm -v "${{ github.workspace }}:/work" -w /work clj-kondo/clj-kondo:latest --lint src test
+
+  test:
+    name: Run tests
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Cache Maven (~/.m2)
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/project.clj','**/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Install Leiningen
+        run: |
+          mkdir -p ~/.bin
+          curl -fsSL https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o ~/.bin/lein
+          chmod +x ~/.bin/lein
+          echo "$HOME/.bin" >> $GITHUB_PATH
+
+      - name: Get Leiningen dependencies
+        run: lein deps
+
+      - name: Run tests
+        # Если хочешь пропускать долгие тесты — см. ниже про SKIP_SLOW_TESTS
+        run: lein test
