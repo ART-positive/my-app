@@ -70,7 +70,7 @@
                   (reduce * 1 window))))
          (reduce max 0))))
 
-(defn max-product-lazy-standalone
+(defn lazy
   [s n]
   (let [digits (digits-from-string s)]
     (->> (partition n 1 digits)
@@ -84,4 +84,4 @@
     (println "recursive->" (max-product-recursive-standalone s n))
     (println "tailrec  ->" (max-product-tailrec-standalone s n))
     (println "mapidx   ->" (max-product-mapindexed-standalone s n))
-    (println "lazy     ->" (max-product-lazy-standalone s n))))
+    (println "lazy     ->" (lazy s n))))
