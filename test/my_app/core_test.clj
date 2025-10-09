@@ -6,10 +6,6 @@
   (testing "FIXME, I fail."
     (is (= 1 1))))
 
-(ns my-app.core-test
-  (:require [clojure.test :refer :all]
-            [my-app.core :refer :all]))
-
 (deftest digits-basic-test
   (testing "digits-from-string returns correct digits for small samples"
     (is (= (vec (digits-from-string "12345")) [1 2 3 4 5]))
