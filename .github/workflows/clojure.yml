@@ -3,12 +3,12 @@ name: Clojure CI
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - ".github/workflows/**"
-      - "src/**"
-      - "test/**"
-      - "project.clj"
-      - "deps.edn"
+    # paths:
+    #   - ".github/workflows/**"
+    #   - "src/**"
+    #   - "test/**"
+    #   - "project.clj"
+    #   - "deps.edn"
   pull_request:
     branches: [ "main" ]
     paths:
