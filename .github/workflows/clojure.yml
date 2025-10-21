@@ -98,5 +98,4 @@ jobs:
         run: lein deps
 
       - name: Run tests
-        # Если хочешь пропускать долгие тесты — см. ниже про SKIP_SLOW_TESTS
         run: lein test
